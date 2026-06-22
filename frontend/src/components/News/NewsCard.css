@@ -1,0 +1,114 @@
+.news-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  height: 100%;
+}
+
+.news-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.news-card__media {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--color-bg-muted);
+}
+
+.news-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition);
+}
+
+.news-card:hover .news-card__media img {
+  transform: scale(1.05);
+}
+
+.news-card__placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #232f3e, #3b2a52);
+}
+
+.news-card__tag {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: rgba(15, 27, 45, 0.82);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  backdrop-filter: blur(4px);
+}
+
+.news-card__body {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 18px 18px 52px;
+  flex: 1;
+}
+
+.news-card__meta {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.news-card__title {
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.news-card__title a {
+  color: var(--color-text);
+}
+
+.news-card__title a:hover {
+  color: var(--color-link);
+}
+
+.news-card__summary {
+  font-size: 14px;
+  color: var(--color-text-muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.news-card__more {
+  position: absolute;
+  left: 18px;
+  bottom: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  color: var(--color-link);
+  background: var(--color-bg-muted);
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.news-card__more:hover {
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+}

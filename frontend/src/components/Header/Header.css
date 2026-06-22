@@ -1,0 +1,138 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* Main bar */
+.header__main {
+  background: var(--color-navy-2);
+  color: var(--color-text-invert);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.header__main-inner {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  height: var(--header-main-h);
+}
+
+.header__logo {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.header__logo-img {
+  height: 40px;
+  width: auto;
+  /* Source SVG is black; render it white on the dark header. */
+  filter: brightness(0) invert(1);
+  transition: opacity var(--transition-fast);
+}
+
+.header__logo:hover .header__logo-img {
+  opacity: 0.8;
+}
+
+.header__nav {
+  flex: 1;
+}
+
+.header__nav-list {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.header__nav-link {
+  color: var(--color-text-invert);
+  font-size: 15px;
+  font-weight: 600;
+  padding: 6px 0;
+  border-bottom: 2px solid transparent;
+}
+
+.header__nav-link:hover {
+  color: #fff;
+  border-bottom-color: var(--color-accent);
+}
+
+.header__actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-shrink: 0;
+}
+
+.header__icon-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: none;
+  color: var(--color-text-invert);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 0;
+}
+
+.header__icon-btn:hover {
+  color: var(--color-accent);
+}
+
+.header__cta {
+  white-space: nowrap;
+}
+
+.header__hamburger {
+  display: none;
+  background: transparent;
+  border: none;
+  color: var(--color-text-invert);
+  padding: 4px;
+}
+
+@media (max-width: 900px) {
+  .header__icon-label {
+    display: none;
+  }
+  .header__nav {
+    position: absolute;
+    top: var(--header-main-h);
+    left: 0;
+    right: 0;
+    background: var(--color-navy-2);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height var(--transition);
+  }
+  .header__nav.is-open {
+    max-height: 320px;
+  }
+  .header__nav-list {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 8px 24px 16px;
+  }
+  .header__nav-link {
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+  .header__hamburger {
+    display: inline-flex;
+  }
+}
+
+@media (max-width: 560px) {
+  .header__utility-list {
+    gap: 14px;
+  }
+  .header__utility-link span,
+  .header__cta {
+    font-size: 12px;
+  }
+}
