@@ -7,10 +7,20 @@ const socials = [
   {
     Icon: Linkedin,
     label: 'LinkedIn',
-    href: 'https://www.linkedin.com/in/woodyjeon/',
+    href: 'https://www.linkedin.com/',
+    // href: 'https://www.linkedin.com/in/woodyjeon/',
   },
-  { Icon: Instagram, label: 'Instagram', href: '#' },
-  { Icon: Github, label: 'GitHub', href: 'https://github.com/woodyjeon' },
+  {
+    Icon: Instagram,
+    label: 'Instagram',
+    href: 'https://www.instagram.com/',
+  },
+  {
+    Icon: Github,
+    label: 'GitHub',
+    href: 'https://github.com/',
+    // href: 'https://github.com/woodyjeon',
+  },
 ]
 
 export default function Footer() {
@@ -32,8 +42,8 @@ export default function Footer() {
                     href={href}
                     aria-label={label}
                     className="footer__social"
-                    target={href === '#' ? undefined : '_blank'}
-                    rel={href === '#' ? undefined : 'noopener noreferrer'}
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
                     <Icon size={16} />
                   </a>

@@ -42,8 +42,9 @@ export default function Header() {
           </nav>
 
           <div className="header__actions">
+            {/* 개인 프로필: https://github.com/woodyjeon */}
             <a
-              href="https://github.com/woodyjeon"
+              href="https://github.com/"
               className="btn btn--primary header__cta"
               target="_blank"
               rel="noopener noreferrer"
