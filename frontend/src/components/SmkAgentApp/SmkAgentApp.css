@@ -553,3 +553,210 @@
 .smkapp__btn:disabled:hover {
   background: var(--color-surface);
 }
+
+/* ===== Mobile result cards (hidden on desktop) ===== */
+.smkapp__result-cards {
+  display: none;
+}
+
+.smkapp__result-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.smkapp__result-card:hover {
+  background: var(--color-bg-subtle);
+}
+
+.smkapp__result-card.is-active {
+  background: var(--color-bg-muted);
+  border-color: var(--color-accent);
+}
+
+.smkapp__result-card-title {
+  margin: 0;
+  font-size: 14.5px;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--color-text);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.smkapp__result-card-meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 12px;
+}
+
+.smkapp__result-card-field {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.smkapp__result-card-field--full {
+  grid-column: 1 / -1;
+}
+
+.smkapp__result-card-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.smkapp__result-card-value {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.smkapp__result-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-top: 4px;
+  border-top: 1px solid var(--color-border);
+}
+
+.smkapp__result-card-actions .smkapp__row-btn {
+  flex: 1;
+  min-height: 36px;
+}
+
+.smkapp__result-cards-empty {
+  padding: 32px 14px;
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 13.5px;
+}
+
+/* ===== IP table horizontal scroll ===== */
+.smkapp__table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-top: 10px;
+}
+
+.smkapp__table-scroll .smkapp__ip-table {
+  margin-top: 0;
+  min-width: 640px;
+}
+
+/* ===== Responsive: tablet & mobile ===== */
+@media (max-width: 900px) {
+  .smkapp {
+    padding-bottom: 140px;
+  }
+
+  .smkapp__top-row {
+    flex-direction: column;
+  }
+
+  .smkapp__upload {
+    width: 100%;
+    order: -1;
+  }
+
+  .smkapp__table--desktop {
+    display: none;
+  }
+
+  .smkapp__result-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .smkapp__results {
+    overflow: visible;
+  }
+
+  .smkapp__bottom {
+    flex-direction: column;
+  }
+
+  .smkapp__panel--left,
+  .smkapp__panel--right {
+    flex: none;
+    width: 100%;
+  }
+
+  .smkapp__panel--left {
+    scroll-margin-top: calc(var(--header-main-h) + 12px);
+  }
+
+  .smkapp__panel--right {
+    position: static;
+    padding: 18px;
+  }
+
+  .smkapp__panel-fill {
+    position: static;
+    inset: auto;
+    padding: 0;
+  }
+
+  .smkapp__panel--right .smkapp__panel-scroll {
+    flex: none;
+    overflow-y: visible;
+    max-height: none;
+  }
+
+  .smkapp__panel-head {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .smkapp__panel-head .smkapp__btn {
+    width: 100%;
+  }
+
+  .smkapp__panel-footer {
+    flex-direction: column;
+  }
+
+  .smkapp__panel-footer .smkapp__btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 560px) {
+  .smkapp__panel {
+    padding: 14px;
+  }
+
+  .smkapp__panel--right {
+    padding: 14px;
+  }
+
+  .smkapp__smk-item {
+    padding: 12px;
+  }
+
+  .smkapp__chart {
+    height: 180px;
+  }
+
+  .smkapp__summary-text {
+    min-height: 80px;
+  }
+
+  .smkapp__row-btn {
+    min-height: 36px;
+  }
+}

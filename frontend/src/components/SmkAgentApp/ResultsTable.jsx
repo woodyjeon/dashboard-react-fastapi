@@ -1,5 +1,68 @@
 import { Trash2 } from 'lucide-react'
 
+function ResultCard({ row, activeId, onSelect, onDelete }) {
+  const isActive = row.id === activeId
+
+  return (
+    <article
+      className={`smkapp__result-card ${isActive ? 'is-active' : ''}`}
+      onClick={() => onSelect?.(row.id)}
+    >
+      <h3 className="smkapp__result-card-title" title={row.title}>
+        {row.title || '—'}
+      </h3>
+
+      <div className="smkapp__result-card-meta">
+        <div className="smkapp__result-card-field">
+          <span className="smkapp__result-card-label">등록/공개</span>
+          <span className="smkapp__result-card-value">{row.doc_type || '—'}</span>
+        </div>
+        <div className="smkapp__result-card-field">
+          <span className="smkapp__result-card-label">공보/등록번호</span>
+          <span className="smkapp__result-card-value">{row.doc_no || '—'}</span>
+        </div>
+        <div className="smkapp__result-card-field">
+          <span className="smkapp__result-card-label">출원번호</span>
+          <span className="smkapp__result-card-value">{row.app_no || '—'}</span>
+        </div>
+        <div className="smkapp__result-card-field">
+          <span className="smkapp__result-card-label">출원인</span>
+          <span className="smkapp__result-card-value">{row.applicant || '—'}</span>
+        </div>
+        <div className="smkapp__result-card-field smkapp__result-card-field--full">
+          <span className="smkapp__result-card-label">작성일시</span>
+          <span className="smkapp__result-card-value">{row.created_at || '—'}</span>
+        </div>
+      </div>
+
+      <div className="smkapp__result-card-actions">
+        <button
+          type="button"
+          className="smkapp__row-btn"
+          onClick={(e) => {
+            e.stopPropagation()
+            onSelect?.(row.id)
+          }}
+        >
+          상세보기
+        </button>
+        <button
+          type="button"
+          className="smkapp__row-btn smkapp__row-btn--icon"
+          onClick={(e) => {
+            e.stopPropagation()
+            onDelete?.(row.id)
+          }}
+          aria-label="삭제"
+          title="삭제"
+        >
+          <Trash2 size={15} />
+        </button>
+      </div>
+    </article>
+  )
+}
+
 export default function ResultsTable({
   results = [],
   activeId = null,
@@ -8,7 +71,7 @@ export default function ResultsTable({
 }) {
   return (
     <div className="smkapp__results">
-      <table className="smkapp__table">
+      <table className="smkapp__table smkapp__table--desktop">
         <thead>
           <tr>
             <th>등록/공개</th>
@@ -71,6 +134,22 @@ export default function ResultsTable({
           )}
         </tbody>
       </table>
+
+      <div className="smkapp__result-cards">
+        {results.length === 0 ? (
+          <p className="smkapp__result-cards-empty">아직 작성된 SMK가 없습니다</p>
+        ) : (
+          results.map((row) => (
+            <ResultCard
+              key={row.id}
+              row={row}
+              activeId={activeId}
+              onSelect={onSelect}
+              onDelete={onDelete}
+            />
+          ))
+        )}
+      </div>
     </div>
   )
 }

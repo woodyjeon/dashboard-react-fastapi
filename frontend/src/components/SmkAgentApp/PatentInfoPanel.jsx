@@ -1,6 +1,8 @@
-export default function PatentInfoPanel({ patent }) {
+import { forwardRef } from 'react'
+
+const PatentInfoPanel = forwardRef(function PatentInfoPanel({ patent }, ref) {
   return (
-    <section className="smkapp__panel smkapp__panel--left">
+    <section ref={ref} className="smkapp__panel smkapp__panel--left" id="smkapp-patent-panel">
       <div className="smkapp__panel-head smkapp__panel-head--stacked">
         <div className="smkapp__panel-head-text">
           <h2 className="smkapp__panel-title">특허 출원서 정보</h2>
@@ -49,4 +51,6 @@ export default function PatentInfoPanel({ patent }) {
       </div>
     </section>
   )
-}
+})
+
+export default PatentInfoPanel

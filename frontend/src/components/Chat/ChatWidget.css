@@ -12,7 +12,7 @@
   align-items: center;
   justify-content: center;
   box-shadow: var(--shadow-lg);
-  z-index: 1200;
+  z-index: 1302;
   transition: transform var(--transition-fast), background var(--transition-fast),
     opacity var(--transition-fast);
 }
@@ -43,17 +43,20 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  z-index: 1201;
+  z-index: 1301;
   opacity: 0;
   transform: translateY(24px) scale(0.96);
   pointer-events: none;
-  transition: opacity var(--transition), transform var(--transition);
+  visibility: hidden;
+  transition: opacity var(--transition), transform var(--transition),
+    visibility var(--transition);
 }
 
 .chat-panel.is-open {
   opacity: 1;
   transform: translateY(0) scale(1);
   pointer-events: auto;
+  visibility: visible;
 }
 
 .chat-panel__header {
@@ -277,15 +280,63 @@
   cursor: not-allowed;
 }
 
+@media (max-width: 900px) {
+  .chat-fab {
+    right: 16px;
+    bottom: max(16px, env(safe-area-inset-bottom, 0px));
+    width: 52px;
+    height: 52px;
+  }
+
+  .chat-panel {
+    right: 16px;
+    bottom: max(16px, env(safe-area-inset-bottom, 0px));
+    width: min(360px, calc(100vw - 32px));
+    height: min(480px, calc(100dvh - 96px));
+    max-width: calc(100vw - 32px);
+    max-height: min(480px, calc(100dvh - 96px));
+  }
+
+  .chat-panel__header {
+    padding: 12px 14px;
+  }
+
+  .chat-panel__body {
+    padding: 14px 12px;
+    gap: 12px;
+  }
+
+  .chat-panel__suggestions {
+    padding: 0 12px 10px;
+  }
+
+  .chat-panel__input {
+    padding: 10px 12px;
+  }
+}
+
 @media (max-width: 480px) {
   .chat-panel {
-    right: 8px;
-    bottom: 8px;
-    height: calc(100vh - 16px);
+    right: 12px;
+    bottom: max(12px, env(safe-area-inset-bottom, 0px));
+    width: min(340px, calc(100vw - 24px));
+    height: min(420px, calc(100dvh - 88px));
+    max-width: calc(100vw - 24px);
+    max-height: min(420px, calc(100dvh - 88px));
   }
 
   .chat-fab--smk {
-    bottom: 20px;
+    bottom: max(20px, env(safe-area-inset-bottom, 0px));
     right: 16px;
+  }
+
+  .chat-msg__bubble {
+    font-size: 13.5px;
+    padding: 9px 12px;
+  }
+
+  .chat-chip {
+    font-size: 12px;
+    padding: 6px 10px;
   }
 }

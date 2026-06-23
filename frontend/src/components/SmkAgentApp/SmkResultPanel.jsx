@@ -18,32 +18,34 @@ function IpTable({ rows }) {
     return <p className="smkapp__smk-item-body">—</p>
   }
   return (
-    <table className="smkapp__ip-table">
-      <thead>
-        <tr>
-          <th>구분</th>
-          <th>특허명</th>
-          <th>등록/공개</th>
-          <th>공보/등록번호</th>
-          <th>출원번호</th>
-          <th>출원인</th>
-          <th>출원일</th>
-        </tr>
-      </thead>
-      <tbody>
-        {rows.map((row, idx) => (
-          <tr key={idx}>
-            <td>{row.category || '—'}</td>
-            <td>{row.title || '—'}</td>
-            <td>{row.doc_type || '—'}</td>
-            <td>{row.doc_no || '—'}</td>
-            <td>{row.app_no || '—'}</td>
-            <td>{row.applicant || '—'}</td>
-            <td>{row.apply_date || '—'}</td>
+    <div className="smkapp__table-scroll">
+      <table className="smkapp__ip-table">
+        <thead>
+          <tr>
+            <th>구분</th>
+            <th>특허명</th>
+            <th>등록/공개</th>
+            <th>공보/등록번호</th>
+            <th>출원번호</th>
+            <th>출원인</th>
+            <th>출원일</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {rows.map((row, idx) => (
+            <tr key={idx}>
+              <td>{row.category || '—'}</td>
+              <td>{row.title || '—'}</td>
+              <td>{row.doc_type || '—'}</td>
+              <td>{row.doc_no || '—'}</td>
+              <td>{row.app_no || '—'}</td>
+              <td>{row.applicant || '—'}</td>
+              <td>{row.apply_date || '—'}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   )
 }
 

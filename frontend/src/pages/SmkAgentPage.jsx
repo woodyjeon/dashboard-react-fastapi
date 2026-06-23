@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Bot } from 'lucide-react'
 import ResultsTable from '../components/SmkAgentApp/ResultsTable'
 import UploadPanel from '../components/SmkAgentApp/UploadPanel'
@@ -39,6 +39,15 @@ export default function SmkAgentPage() {
   // fileId / app_no 양쪽 키로 같은 세션을 가리킴.
   const [sessions, setSessions] = useState({})
   const [current, setCurrent] = useState(null)
+  const patentPanelRef = useRef(null)
+  const pendingPatentScrollRef = useRef(false)
+
+  const scrollToPatentPanel = useCallback(() => {
+    if (!window.matchMedia('(max-width: 900px)').matches) return
+    requestAnimationFrame(() => {
+      patentPanelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    })
+  }, [])
 
   const saveSession = useCallback((session) => {
     setSessions((prev) => {
@@ -59,6 +68,12 @@ export default function SmkAgentPage() {
   useEffect(() => {
     refreshResults()
   }, [refreshResults])
+
+  useEffect(() => {
+    if (!pendingPatentScrollRef.current || !current) return
+    pendingPatentScrollRef.current = false
+    scrollToPatentPanel()
+  }, [current, scrollToPatentPanel])
 
   // 추출만 된 PDF도 목록에 보이도록 백엔드 목록과 로컬 세션 병합.
   const displayResults = useMemo(() => {
@@ -119,6 +134,8 @@ export default function SmkAgentPage() {
   }
 
   const handleSelect = async (id) => {
+    pendingPatentScrollRef.current = true
+
     const cached = sessions[id]
     if (cached) {
       setCurrent(cached)
@@ -130,6 +147,7 @@ export default function SmkAgentPage() {
       setCurrent(session)
     } catch {
       if (!cached) {
+        pendingPatentScrollRef.current = false
         setCurrent(null)
       }
     }
@@ -195,7 +213,7 @@ export default function SmkAgentPage() {
           </div>
 
           <div className="smkapp__bottom">
-            <PatentInfoPanel patent={patent} />
+            <PatentInfoPanel ref={patentPanelRef} patent={patent} />
             <SmkResultPanel
               fileId={current?.fileId ?? null}
               resultId={current?.listId ?? null}
