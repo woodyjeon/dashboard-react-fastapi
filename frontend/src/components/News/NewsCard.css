@@ -9,6 +9,16 @@
   height: 100%;
   color: var(--color-text);
   text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.news-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition);
+  -webkit-user-drag: none;
+  user-select: none;
 }
 
 .news-card:hover {
@@ -22,13 +32,6 @@
   aspect-ratio: 16 / 9;
   overflow: hidden;
   background: var(--color-bg-muted);
-}
-
-.news-card__media img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform var(--transition);
 }
 
 .news-card:hover .news-card__media img {

@@ -2,11 +2,23 @@
   display: block;
   width: 100%;
   height: 100%;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  text-align: left;
+  background: transparent;
   border-radius: var(--radius-lg);
   overflow: hidden;
   box-shadow: var(--shadow-md);
   color: inherit;
   text-decoration: none;
+  cursor: pointer;
+}
+
+button.project-card {
+  appearance: none;
+  -webkit-appearance: none;
 }
 
 .project-card__media {

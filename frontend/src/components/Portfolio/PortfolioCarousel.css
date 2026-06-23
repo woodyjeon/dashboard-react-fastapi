@@ -43,7 +43,7 @@
   transition: transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
   will-change: transform;
   cursor: grab;
-  touch-action: pan-y;
+  touch-action: none;
   user-select: none;
 }
 
@@ -68,7 +68,6 @@
   transform: scale(1);
   opacity: 1;
   filter: none;
-  cursor: default;
 }
 
 .portfolio__arrow {

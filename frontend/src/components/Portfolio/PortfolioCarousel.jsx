@@ -102,7 +102,11 @@ export default function PortfolioCarousel({ layout = 'carousel' }) {
               key={project.id}
               style={{ width: `${metrics.slideW}px` }}
             >
-              <ProjectCard project={project} active={i === active} />
+              <ProjectCard
+                project={project}
+                active={i === active}
+                onActivate={() => setActive(i)}
+              />
             </div>
           ))}
         </div>

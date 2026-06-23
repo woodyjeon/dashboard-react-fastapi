@@ -47,8 +47,10 @@ export default function Header() {
               className="btn btn--primary header__cta"
               target="_blank"
               rel="noopener noreferrer"
+              aria-label="GitHub 보기"
             >
-              GitHub 보기 <Github size={16} />
+              <span className="header__cta-label">GitHub 보기</span>
+              <Github size={16} aria-hidden="true" />
             </a>
             <button
               className="header__hamburger"
