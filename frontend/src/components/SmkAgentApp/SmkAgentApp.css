@@ -1,0 +1,554 @@
+.smk__head {
+  margin-bottom: 28px;
+}
+
+.smk__head .section__title {
+  color: var(--color-text);
+}
+
+.smk__head .section__subtitle {
+  color: var(--color-text-muted);
+}
+
+.smk__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--color-accent-hover);
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.smkapp {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  color: var(--color-text);
+  font-family: var(--font-sans);
+}
+
+.smkapp *,
+.smkapp *::before,
+.smkapp *::after {
+  box-sizing: border-box;
+}
+
+/* ===== Top row (results table height matches upload panel) ===== */
+.smkapp__top-row {
+  display: flex;
+  gap: 16px;
+  align-items: stretch;
+  flex: 0 0 auto;
+  min-height: 0;
+}
+
+/* Results table */
+.smkapp__results {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  overflow: auto;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.smkapp__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+
+.smkapp__table th,
+.smkapp__table td {
+  padding: 10px 14px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.smkapp__table thead th {
+  position: sticky;
+  top: 0;
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+  font-weight: 700;
+  border-bottom: 1px solid var(--color-accent-hover);
+}
+
+.smkapp__table-action {
+  text-align: center;
+}
+
+.smkapp__row {
+  cursor: pointer;
+}
+
+.smkapp__table tbody tr.is-active {
+  background: var(--color-bg-muted);
+}
+
+.smkapp__table tbody tr:hover {
+  background: var(--color-bg-subtle);
+}
+
+.smkapp__row-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.smkapp__row-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 5px 10px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--color-accent);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.smkapp__row-btn:hover {
+  background: var(--color-accent);
+  color: #fff;
+  border-color: var(--color-accent);
+}
+
+.smkapp__row-btn--icon {
+  padding: 5px 7px;
+  color: var(--color-text-muted);
+}
+
+.smkapp__row-btn--icon:hover {
+  background: #dc2626;
+  border-color: #dc2626;
+  color: #fff;
+}
+
+.smkapp__table-empty {
+  text-align: center;
+  color: var(--color-text-muted);
+  padding: 32px 14px;
+}
+
+/* Upload panel */
+.smkapp__upload {
+  flex: none;
+  width: 260px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 10px;
+  padding: 14px 16px;
+  overflow: auto;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.smkapp__upload-head {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.smkapp__upload-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.smkapp__upload-desc {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--color-text-muted);
+}
+
+.smkapp__upload-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.smkapp__file {
+  cursor: pointer;
+  margin: 0;
+}
+
+.smkapp__file-name,
+.smkapp__file-placeholder {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.smkapp__file-name {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.smkapp__file-placeholder {
+  color: var(--color-text-muted);
+}
+
+.smkapp__status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13.5px;
+  color: var(--color-text-muted);
+}
+
+.smkapp__spinner {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid var(--color-border-strong);
+  border-top-color: var(--color-accent);
+  animation: smkapp-spin 0.8s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes smkapp-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.smkapp__error {
+  font-size: 13px;
+  color: #b42318;
+  white-space: pre-line;
+}
+
+/* ===== Bottom area: 좌측 패널이 높이를 결정, 우측은 동일 높이 + 내부 스크롤 ===== */
+.smkapp__bottom {
+  display: flex;
+  gap: 16px;
+  align-items: stretch;
+}
+
+.smkapp__panel {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: 18px;
+}
+
+.smkapp__panel--left {
+  flex: 0 0 40%;
+}
+
+.smkapp__panel--right {
+  flex: 0 0 60%;
+  /* 절대배치 내부(.smkapp__panel-fill)가 높이를 차지하지 않으므로,
+     이 패널의 높이는 좌측 패널 높이에 맞춰진다(align-items: stretch). */
+  position: relative;
+  padding: 0;
+}
+
+.smkapp__panel-fill {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 18px;
+  min-height: 0;
+}
+
+.smkapp__panel-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--color-accent);
+}
+
+.smkapp__panel-head {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.smkapp__panel-head--stacked {
+  align-items: flex-start;
+}
+
+.smkapp__panel-head-text {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.smkapp__panel-desc {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.45;
+  font-weight: 400;
+  color: var(--color-text-muted);
+}
+
+/* 기본(좌측 패널): 내용 전체가 보이도록 자연 높이. */
+.smkapp__panel-scroll {
+  padding-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* 우측 패널: 좌측 높이에 맞춰 내부 스크롤. */
+.smkapp__panel--right .smkapp__panel-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.smkapp__hint {
+  color: var(--color-text-muted);
+  font-size: 13.5px;
+}
+
+/* Left panel fields */
+.smkapp__field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 12px;
+  background: var(--color-bg-subtle);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
+
+.smkapp__field-label {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.smkapp__field-value {
+  font-size: 14.5px;
+  font-weight: 600;
+}
+
+.smkapp__patent-ids {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.smkapp__patent-ids .smkapp__ip-table {
+  margin-top: 0;
+}
+
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.smkapp__summary-text {
+  min-height: 110px;
+  padding: 12px;
+  background: var(--color-bg-subtle);
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  font-size: 13.5px;
+  color: var(--color-text-muted);
+}
+
+.smkapp__figure {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.smkapp__figure-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 160px;
+  background: var(--color-bg-subtle);
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius-md);
+  color: var(--color-text-muted);
+  font-size: 14px;
+}
+
+.smkapp__figure-img {
+  width: 100%;
+  max-height: 320px;
+  object-fit: contain;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 8px;
+}
+
+/* Right panel SMK items */
+.smkapp__smk-item {
+  padding: 14px;
+  background: var(--color-bg-subtle);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.smkapp__smk-item-title {
+  font-size: 14.5px;
+  font-weight: 700;
+}
+
+.smkapp__smk-item-body {
+  margin-top: 8px;
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: var(--color-text-muted);
+  white-space: pre-line;
+}
+
+.smkapp__ip-table {
+  margin-top: 10px;
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.smkapp__ip-table th,
+.smkapp__ip-table td {
+  border: 1px solid var(--color-border);
+  padding: 7px 9px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.smkapp__ip-table th {
+  background: var(--color-bg-subtle);
+  font-weight: 700;
+  color: var(--color-text);
+  white-space: nowrap;
+}
+
+.smkapp__ip-table td {
+  color: var(--color-text-muted);
+}
+
+.smkapp__chart {
+  margin-top: 12px;
+  height: 220px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 10px;
+}
+
+.smkapp__chart canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.smkapp__market {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.smkapp__market-loading {
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+.smkapp__market-sources-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  margin-bottom: 4px;
+}
+
+.smkapp__market-sources {
+  margin-top: 4px;
+}
+
+.smkapp__sources {
+  margin: 4px 0 0;
+  padding-left: 18px;
+  font-size: 12.5px;
+  color: var(--color-text-muted);
+}
+
+.smkapp__sources a {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+
+.smkapp__panel-footer {
+  flex: none;
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  padding-top: 14px;
+  border-top: 1px solid var(--color-border);
+}
+
+/* Buttons */
+.smkapp__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  padding: 9px 18px;
+  font-size: 14px;
+  font-weight: 700;
+  transition: background var(--transition-fast), color var(--transition-fast),
+    border-color var(--transition-fast);
+}
+
+.smkapp__btn--primary {
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+}
+
+.smkapp__btn--primary:hover {
+  background: var(--color-accent-hover);
+}
+
+.smkapp__btn--outline {
+  background: var(--color-surface);
+  border-color: var(--color-border-strong);
+  color: var(--color-text);
+}
+
+.smkapp__btn--outline:hover {
+  background: var(--color-bg-muted);
+}
+
+.smkapp__btn--block {
+  width: 100%;
+}
+
+.smkapp__btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.smkapp__btn:disabled:hover {
+  background: var(--color-surface);
+}

@@ -1,4 +1,4 @@
-"""Naver News section crawler (IT/과학 sid=105)."""
+"""Naver News section crawler."""
 
 from __future__ import annotations
 
@@ -11,6 +11,7 @@ from bs4 import BeautifulSoup
 from app.models import NewsItem
 
 NAVER_IT_SECTION_URL = "https://news.naver.com/section/105"
+NAVER_ECONOMY_SECTION_URL = "https://news.naver.com/section/101"
 DEFAULT_HEADERS = {
     "User-Agent": (
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
@@ -18,7 +19,6 @@ DEFAULT_HEADERS = {
     ),
     "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
 }
-CATEGORY = "IT/과학"
 
 
 def _make_id(url: str) -> str:
@@ -29,10 +29,9 @@ def _clean_text(value: str) -> str:
     return re.sub(r"\s+", " ", value).strip()
 
 
-def fetch_naver_it_news(limit: int = 20) -> list[NewsItem]:
-    """Scrape headline articles from Naver IT/Science section."""
+def _fetch_naver_section(section_url: str, category: str) -> list[NewsItem]:
     response = httpx.get(
-        NAVER_IT_SECTION_URL,
+        section_url,
         headers=DEFAULT_HEADERS,
         timeout=20.0,
         follow_redirects=True,
@@ -81,7 +80,7 @@ def fetch_naver_it_news(limit: int = 20) -> list[NewsItem]:
                 id=_make_id(url),
                 title=title,
                 summary=summary,
-                category=CATEGORY,
+                category=category,
                 source=press,
                 url=url,
                 image=image,
@@ -89,7 +88,14 @@ def fetch_naver_it_news(limit: int = 20) -> list[NewsItem]:
             )
         )
 
-        if len(items) >= limit:
-            break
-
     return items
+
+
+def fetch_naver_it_news() -> list[NewsItem]:
+    """Scrape headline articles from Naver IT/Science section (sid=105)."""
+    return _fetch_naver_section(NAVER_IT_SECTION_URL, "IT/과학")
+
+
+def fetch_naver_economy_news() -> list[NewsItem]:
+    """Scrape headline articles from Naver Economy section (sid=101)."""
+    return _fetch_naver_section(NAVER_ECONOMY_SECTION_URL, "경제")

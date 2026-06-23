@@ -1,14 +1,15 @@
+import { Link } from 'react-router-dom'
 import { ArrowUpRight } from 'lucide-react'
+import { getProjectPath } from '../../data/projectUtils'
 import './ProjectCard.css'
 
 export default function ProjectCard({ project, active }) {
   return (
-    <a
-      href={project.url}
-      target="_blank"
-      rel="noopener noreferrer"
+    <Link
+      to={getProjectPath(project.slug)}
       className={`project-card ${active ? 'is-active' : ''}`}
       tabIndex={active ? 0 : -1}
+      aria-label={`${project.title} 상세 페이지`}
     >
       <div className="project-card__media">
         <img src={project.image} alt={project.title} loading="lazy" />
@@ -30,6 +31,6 @@ export default function ProjectCard({ project, active }) {
           </div>
         </div>
       </div>
-    </a>
+    </Link>
   )
 }

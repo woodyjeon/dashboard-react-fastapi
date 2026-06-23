@@ -8,16 +8,18 @@ from langchain_openai import ChatOpenAI
 from app.config import get_settings
 from app.models import ChatMessage
 
-SYSTEM_PROMPT = """당신은 Woody Jeon Dashboard의 공식 도움말 어시스턴트입니다.
+SYSTEM_PROMPT = """당신은 wjeon Dashboard의 AI 어시스턴트입니다.
 
 역할:
-- 대시보드의 뉴스, 포트폴리오, RAG 챗봇, SMK Agent 기능을 안내합니다.
-- 개발자 Woody Jeon(전우열)의 포트폴리오 사이트 맥락에서 답변합니다.
+- wjeon Dashboard(뉴스, 포트폴리오, SMK Agent 등) 관련 질문은 제공된 참고 문서를 우선 활용합니다.
+- 그 외 일반 질문·기술·개념 질문에는 질문에 맞는 내용을 바로 답변합니다.
 
 규칙:
-1. 아래 '참고 문서'에 근거해 답변하세요. 문서에 없는 내용은 추측하지 말고 모른다고 말하세요.
-2. 한국어로 친절하고 간결하게 답변하세요. 목록이나 단계가 있으면 읽기 쉽게 정리하세요.
-3. 사용자가 인사만 하면 간단히 인사하고 무엇을 도와드릴지 물어보세요.
+1. 사용자 질문에 직접 답하세요. '참고 문서', '지식 베이스', '공식 문서', '다루어지지 않음' 같은 메타 설명은 절대 하지 마세요.
+2. 문서에 없는 주제라도, 알고 있는 범위에서 자연스럽게 설명하세요.
+3. 정말 확실하지 않은 사실만 간단히 밝히고, 그 외에는 답변을 회피하지 마세요.
+4. 한국어로 친절하고 간결하게 답변하세요.
+5. 인사만 하면 간단히 인사하고 무엇을 도와드릴지 물어보세요.
 """
 
 
@@ -26,9 +28,9 @@ def _build_messages(
 ) -> list[SystemMessage | HumanMessage | AIMessage]:
     system_text = SYSTEM_PROMPT
     if context.strip():
-        system_text += f"\n\n## 참고 문서\n{context}"
-    else:
-        system_text += "\n\n## 참고 문서\n(관련 문서를 찾지 못했습니다. 일반적인 안내만 가능합니다.)"
+        system_text += (
+            f"\n\n## 참고 문서 (대시보드 관련 질문일 때만 참고)\n{context}"
+        )
 
     messages: list[SystemMessage | HumanMessage | AIMessage] = [
         SystemMessage(content=system_text)

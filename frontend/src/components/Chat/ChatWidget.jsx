@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
+import { useLocation } from 'react-router-dom'
 import { MessageCircle, X, Send, Bot, Loader2 } from 'lucide-react'
 import { sendChat } from '../../services/api'
 import './ChatWidget.css'
@@ -6,7 +8,7 @@ import './ChatWidget.css'
 const WELCOME = {
   role: 'assistant',
   content:
-    '안녕하세요! Woody Dashboard 도우미입니다. 뉴스, 포트폴리오, SMK Agent, 챗봇 사용법 등 무엇이든 물어보세요.',
+    '안녕하세요! wjeon Dashboard 도우미입니다. 뉴스, 포트폴리오, SMK Agent, 챗봇 사용법 등 무엇이든 물어보세요.',
 }
 
 const SUGGESTIONS = [
@@ -16,6 +18,8 @@ const SUGGESTIONS = [
 ]
 
 export default function ChatWidget() {
+  const { pathname } = useLocation()
+  const isSmkRoute = pathname.startsWith('/smk')
   const [open, setOpen] = useState(false)
   const [messages, setMessages] = useState([WELCOME])
   const [input, setInput] = useState('')
@@ -73,24 +77,28 @@ export default function ChatWidget() {
     submit()
   }
 
-  return (
+  return createPortal(
     <>
       <button
-        className={`chat-fab ${open ? 'is-hidden' : ''}`}
+        className={`chat-fab ${open ? 'is-hidden' : ''} ${isSmkRoute ? 'chat-fab--smk' : ''}`}
         onClick={() => setOpen(true)}
         aria-label="챗봇 열기"
       >
         <MessageCircle size={24} />
       </button>
 
-      <div className={`chat-panel ${open ? 'is-open' : ''}`} role="dialog" aria-label="RAG 챗봇">
+      <div
+        className={`chat-panel ${open ? 'is-open' : ''} ${isSmkRoute ? 'chat-panel--smk' : ''}`}
+        role="dialog"
+        aria-label="RAG 챗봇"
+      >
         <div className="chat-panel__header">
           <div className="chat-panel__brand">
             <span className="chat-panel__avatar">
               <Bot size={18} />
             </span>
             <div>
-              <strong>Woody AI</strong>
+              <strong>wjeon AI</strong>
               <span className="chat-panel__status">LangChain + OpenAI</span>
             </div>
           </div>
@@ -104,6 +112,12 @@ export default function ChatWidget() {
         </div>
 
         <div className="chat-panel__body" ref={bodyRef}>
+          <img
+            src="/wj_logo.svg"
+            alt=""
+            className="chat-panel__watermark"
+            aria-hidden="true"
+          />
           {messages.map((m, i) => (
             <div
               key={i}
@@ -154,6 +168,7 @@ export default function ChatWidget() {
           </button>
         </form>
       </div>
-    </>
+    </>,
+    document.body,
   )
 }

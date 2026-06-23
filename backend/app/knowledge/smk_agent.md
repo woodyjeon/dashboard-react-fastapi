@@ -1,16 +1,29 @@
-# SMK Agent
+# SMK 자동화 Agent
+
+## SMK란?
+
+SMK(기술홍보자료, Technology Marketing Kit)는 기술이전·사업화를 위해 특허 기술의 핵심 내용을 정리한 마케팅 문서입니다. 기술개요, 차별성, TRL, 활용분야, 시장규모, 지식재산권 현황 등을 포함합니다.
 
 ## 개요
 
-SMK Agent는 여러 도구를 연결해 사용자를 대신해 작업을 수행하는 에이전트 앱입니다. 대시보드 하단 "SMK Agent" 섹션에서 바로 실행할 수 있습니다.
+대시보드의 SMK 자동화 Agent(`/smk`)는 특허 PDF를 업로드하면 AI가 SMK 01~08 항목을 자동으로 작성해 주는 워크스페이스입니다.
 
-## 연결 방법
+## 주요 기능
 
-- `frontend/src/data/siteConfig.js`의 `smkAgent` 설정에서 URL을 지정합니다.
-- `embed: false` — 링크 카드로 외부 앱 열기
-- `embed: true` — iframe으로 페이지 내 임베드
+- 특허 PDF 업로드 및 출원번호·명칭·출원인·기술요약·대표도면 추출
+- SMK 01~06 개조식 항목 자동 작성
+- 07 시장규모: 웹 검색 기반 조사 및 차트 데이터
+- 08 지식재산권 현황 표 자동 구성
+- Word·PDF 다운로드
+- 작성 결과 저장 및 목록에서 복원
 
-## 현재 설정
+## 사용 방법
 
-- 이름: SMK Agent
-- 기본 URL: siteConfig에서 설정 (배포 시 실제 URL로 교체)
+1. 홈 하단 SMK 섹션 또는 상단 메뉴 **SMK** 클릭
+2. `/smk`에서 PDF 업로드 → 정보 추출 → **SMK 작성 시작**
+3. 결과 확인 후 Word 또는 PDF 다운로드
+
+## 설정
+
+- `frontend/src/data/siteConfig.js`의 `smkAgent`에서 이름·설명 수정 가능
+- 실제 앱은 `/smk` 경로의 내장 워크스페이스 (외부 URL 불필요)

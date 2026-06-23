@@ -2,12 +2,12 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import get_settings
-from app.routers import chat, news
+from app.routers import chat, news, smk
 
 settings = get_settings()
 
 app = FastAPI(
-    title="Woody Dashboard API",
+    title="wjeon Dashboard API",
     description="Backend for the personal dashboard: news feed and RAG chatbot.",
     version="0.1.0",
 )
@@ -22,6 +22,7 @@ app.add_middleware(
 
 app.include_router(news.router)
 app.include_router(chat.router)
+app.include_router(smk.router)
 
 
 @app.get("/api/health", tags=["meta"])

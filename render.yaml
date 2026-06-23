@@ -1,0 +1,20 @@
+# Render Blueprint — https://render.com/docs/blueprint-spec
+# GitHub 연결 후 "New Blueprint" 또는 Web Service 수동 생성 시 참고
+
+services:
+  - type: web
+    name: wjeon-dashboard-api
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_MODEL
+        value: gpt-5-nano
+      - key: OPENAI_TEMPERATURE
+        value: "0.1"
+      - key: CORS_ORIGINS
+        sync: false

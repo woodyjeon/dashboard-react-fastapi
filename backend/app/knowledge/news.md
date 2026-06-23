@@ -6,16 +6,19 @@
 
 ## 데이터 소스
 
-- **네이버 IT**: 네이버 뉴스 IT/과학 섹션(https://news.naver.com/section/105)을 크롤링합니다.
-- **기타**: 추후 다른 사이트 크롤러를 추가할 예정입니다. 현재는 준비 중입니다.
+- **네이버 IT**: IT/과학 섹션(https://news.naver.com/section/105) 크롤링
+- **네이버 경제**: 경제 섹션(https://news.naver.com/section/101) 크롤링
+- **Investing**: 경제 섹션(https://www.investing.com/news/economy) HTML 페이지네이션 크롤링 (스크롤 추가 로드 시뮬레이션, 실패 시 RSS 폴백)
 
 ## API
 
 - `GET /api/news?source=naver_it&limit=24`
+- `GET /api/news?source=naver_economy&limit=24`
+- `GET /api/news?source=investing_economy&limit=24`
 - 응답: 기사 제목, 요약, 언론사, 이미지, 원문 URL
 
 ## UI 동작
 
 - 카드 위에 마우스를 올리면 자동 스크롤이 일시정지됩니다.
 - 일시정지/재생, 이전/다음 버튼으로 수동 제어가 가능합니다.
-- 소스 전환 버튼으로 네이버 IT / 기타를 선택할 수 있습니다.
+- 소스 전환 버튼: naver IT / naver 경제 / Investing

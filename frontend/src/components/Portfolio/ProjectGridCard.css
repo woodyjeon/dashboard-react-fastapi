@@ -1,0 +1,114 @@
+.pcard {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  height: 100%;
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.pcard:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.pcard__media {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--color-bg-muted);
+}
+
+.pcard__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition);
+}
+
+.pcard:hover .pcard__media img {
+  transform: scale(1.05);
+}
+
+.pcard__tag {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: rgba(15, 27, 45, 0.82);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  backdrop-filter: blur(4px);
+}
+
+.pcard__body {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 18px 18px 52px;
+  flex: 1;
+}
+
+.pcard__title {
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--color-text);
+}
+
+.pcard:hover .pcard__title {
+  color: var(--color-link);
+}
+
+.pcard__summary {
+  font-size: 14px;
+  color: var(--color-text-muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.pcard__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pcard__tags li {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-border-strong);
+  color: var(--color-text-muted);
+}
+
+.pcard__more {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  color: var(--color-link);
+  background: var(--color-bg-muted);
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.pcard:hover .pcard__more {
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+}

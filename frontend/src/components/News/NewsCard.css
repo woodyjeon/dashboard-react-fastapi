@@ -7,6 +7,8 @@
   overflow: hidden;
   transition: transform var(--transition-fast), box-shadow var(--transition-fast);
   height: 100%;
+  color: var(--color-text);
+  text-decoration: none;
 }
 
 .news-card:hover {
@@ -73,13 +75,10 @@
   font-size: 17px;
   font-weight: 700;
   line-height: 1.35;
-}
-
-.news-card__title a {
   color: var(--color-text);
 }
 
-.news-card__title a:hover {
+.news-card:hover .news-card__title {
   color: var(--color-link);
 }
 
@@ -95,8 +94,8 @@
 
 .news-card__more {
   position: absolute;
-  left: 18px;
-  bottom: 16px;
+  right: 8px;
+  bottom: 8px;
   display: inline-flex;
   align-items: center;
   justify-content: center;

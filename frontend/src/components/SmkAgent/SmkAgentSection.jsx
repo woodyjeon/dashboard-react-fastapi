@@ -1,11 +1,30 @@
-import { Bot, ExternalLink, Workflow, Zap, ShieldCheck } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import {
+  ArrowRight,
+  BarChart3,
+  ClipboardList,
+  FileDown,
+  FileText,
+} from 'lucide-react'
 import { siteConfig } from '../../data/siteConfig'
 import './SmkAgentSection.css'
 
 const features = [
-  { Icon: Workflow, title: '도구 연결', text: '여러 서비스를 연결해 작업 흐름을 자동화합니다.' },
-  { Icon: Zap, title: '자동 실행', text: '반복 작업을 대신 수행해 시간을 절약합니다.' },
-  { Icon: ShieldCheck, title: '안전한 연동', text: '설정한 범위 안에서만 안전하게 동작합니다.' },
+  {
+    Icon: ClipboardList,
+    title: 'SMK 자동 작성',
+    text: '기술개요·차별성·TRL·활용분야·시장규모·지식재산권 현황 등 기술홍보자료 항목을 AI가 개조식으로 생성합니다.',
+  },
+  {
+    Icon: BarChart3,
+    title: '시장규모·특허 추출',
+    text: '특허 PDF에서 출원 정보와 대표도면을 추출하고, 웹 검색 기반 시장규모 데이터를 함께 수집합니다.',
+  },
+  {
+    Icon: FileDown,
+    title: 'Word·PDF 출력',
+    text: '작성된 SMK를 Word·PDF 문서로 내려받아 기술이전·사업화 자료로 바로 활용할 수 있습니다.',
+  },
 ]
 
 export default function SmkAgentSection() {
@@ -17,19 +36,14 @@ export default function SmkAgentSection() {
         <div className="smk__card">
           <div className="smk__intro">
             <span className="smk__eyebrow">
-              <Bot size={16} /> SMK Agent
+              <FileText size={16} /> 기술홍보자료 (SMK)
             </span>
             <h2 className="section__title">{smkAgent.name}</h2>
             <p className="smk__desc">{smkAgent.description}</p>
             <div className="smk__actions">
-              <a
-                href={smkAgent.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn--primary"
-              >
-                앱 실행하기 <ExternalLink size={16} />
-              </a>
+              <Link to="/smk" className="btn btn--primary">
+                SMK 작성 시작 <ArrowRight size={16} />
+              </Link>
             </div>
             <ul className="smk__features">
               {features.map(({ Icon, title, text }) => (
@@ -55,25 +69,20 @@ export default function SmkAgentSection() {
                 loading="lazy"
               />
             ) : (
-              <a
-                href={smkAgent.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="smk__mock"
-              >
+              <Link to="/smk" className="smk__mock">
                 <div className="smk__mock-bar">
                   <span />
                   <span />
                   <span />
                 </div>
                 <div className="smk__mock-body">
-                  <Bot size={48} />
-                  <p>{smkAgent.name} 실행</p>
+                  <FileText size={48} />
+                  <p>기술홍보자료 작성 워크스페이스</p>
                   <span className="smk__mock-link">
-                    새 창에서 열기 <ExternalLink size={14} />
+                    워크스페이스 열기 <ArrowRight size={14} />
                   </span>
                 </div>
-              </a>
+              </Link>
             )}
           </div>
         </div>

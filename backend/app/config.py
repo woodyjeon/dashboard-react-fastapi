@@ -14,6 +14,13 @@ class Settings(BaseSettings):
     news_rss_feeds: str = ""
     cors_origins: str = "http://localhost:5173,http://127.0.0.1:5173"
 
+    # SMK automation (uses the OpenAI key/model above)
+    student_name: str = "홍길동"
+    smk_upload_dir: str = "uploads"
+    smk_output_dir: str = "outputs"
+    smk_max_upload_mb: int = 20
+    smk_pdf_dpi: int = 150
+
     @property
     def rss_feed_list(self) -> list[str]:
         return [f.strip() for f in self.news_rss_feeds.split(",") if f.strip()]

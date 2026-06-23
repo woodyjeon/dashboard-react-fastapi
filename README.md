@@ -1,137 +1,231 @@
-# Woody Dashboard
+# wjeon Dashboard
 
-모던 스타일의 개인용 대시보드입니다. 뉴스 자동 스크롤링, 포트폴리오 캐러셀, RAG 기반 챗봇, SMK Agent 연동을 한 화면에서 제공합니다.
+모던 스타일의 개인용 대시보드입니다. 네이버 IT 뉴스 크롤링, 포트폴리오 캐러셀, RAG 기반 챗봇, SMK Agent 연동을 한 화면에서 제공합니다.
+
+## 배포 구조
+
+| 영역 | 호스팅 | 저장소 경로 |
+| ---- | ------ | ----------- |
+| 프론트엔드 | [Vercel](https://vercel.com) | `frontend/` |
+| 백엔드 API | [Render](https://render.com) | `backend/` |
+
+```
+브라우저 → Vercel (React SPA)
+              ↓ VITE_API_BASE_URL
+           Render (FastAPI) → OpenAI / 네이버 뉴스 크롤링
+```
+
+- **GitHub**: https://github.com/woodyjeon/dashboard-react-fastapi
+- 로컬 개발: Vite가 `/api`를 `http://127.0.0.1:8000`으로 프록시
+- 프로덕션: Vercel 환경 변수 `VITE_API_BASE_URL` → Render 백엔드 URL
 
 ## 기술 스택
 
-| 영역      | 사용 기술                          |
-| --------- | ---------------------------------- |
-| Frontend  | React 19, Vite 8, 커스텀 CSS       |
-| 아이콘    | lucide-react                       |
-| Backend   | FastAPI (Python 3.13)              |
-| 배포      | Vercel (프론트엔드)                |
+| 영역 | 사용 기술 |
+| ---- | --------- |
+| Frontend | React 19, Vite 8, 커스텀 CSS, lucide-react |
+| Backend | FastAPI, LangChain, OpenAI, FAISS |
+| 배포 | Vercel (프론트), Render (백엔드) |
 
 ## 프로젝트 구조
 
 ```
-woody_dashboard/
-├─ frontend/                 # React + Vite SPA
-│  ├─ src/
-│  │  ├─ components/         # Header, Footer, Hero, News, Portfolio, SmkAgent, Chat
-│  │  ├─ data/               # 프로젝트/사이트 설정/뉴스
-│  │  ├─ services/api.js     # 백엔드 API 클라이언트
-│  │  └─ styles/             # 디자인 토큰 & 전역 CSS
+wjeon_dashboard/
+├─ frontend/                 # React + Vite SPA (Vercel)
+│  ├─ src/components/        # Header, Footer, Hero, News, Portfolio, Chat, SmkAgent
+│  ├─ src/data/              # projects, siteConfig, newsSources
+│  ├─ src/services/api.js    # API 클라이언트 (VITE_API_BASE_URL)
 │  ├─ vercel.json
-│  └─ vite.config.js         # /api → FastAPI 프록시
-└─ backend/                  # FastAPI 서버
-   └─ app/
-      ├─ main.py             # 앱 + CORS + 라우터
-      ├─ routers/            # news, chat
-      ├─ services/           # news_service, rag_service, llm_service
-      └─ data/mock_news.py
+│  └─ vite.config.js         # 로컬 /api → FastAPI 프록시
+├─ backend/                  # FastAPI (Render)
+│  └─ app/
+│     ├─ main.py
+│     ├─ routers/            # news, chat
+│     ├─ services/           # naver_news, rag, llm
+│     └─ knowledge/          # RAG 지식 베이스 (markdown)
+├─ vercel.json               # 루트 배포 시 frontend 빌드 설정
+└─ render.yaml               # Render Web Service 설정
 ```
 
 ## 주요 기능
 
-1. **뉴스 자동 스크롤링** — 카드형 뉴스가 가로로 자동 스크롤됩니다(마우스 오버 시 일시정지, 수동 이동/일시정지 버튼 제공). 데이터는 `GET /api/news`에서 받아오며 RSS 피드를 제공합니다.
-2. **포트폴리오 캐러셀** — 중앙 대형 카드 + 양옆 미리보기, 좌우 화살표, `1/N` 인디케이터. 프로젝트는 `frontend/src/data/projects.js`에서 편집합니다.
-3. **RAG 기반 챗봇** — 우측 하단 플로팅 위젯. `POST /api/chat`이 지식 베이스에서 관련 문서를 검색(`rag_service`)해 LLM(`llm_service`)으로 답변합니다.
-4. **SMK Agent** — 외부 에이전트 앱을 링크 카드 또는 iframe 임베드로 연결합니다. `frontend/src/data/siteConfig.js`의 `smkAgent`에서 설정합니다.
+1. **실시간 뉴스 피드** — 네이버 IT·경제, Investing.com 경제 뉴스, 소스 전환 및 카드 자동 스크롤
+2. **포트폴리오 캐러셀** — 중앙 대형 카드 + 좌우 미리보기, `1/N` 인디케이터
+3. **RAG 챗봇** — LangChain + OpenAI, FAISS 지식 베이스 검색 후 답변
+4. **SMK Agent** — 외부 에이전트 앱 링크/iframe 연동
 
 ## 로컬 실행
 
 ### 1. 백엔드 (FastAPI)
 
-```bash
+```powershell
 cd backend
 python -m venv .venv
-.venv\Scripts\activate            # Windows (PowerShell: .venv\Scripts\Activate.ps1)
-# source .venv/bin/activate       # macOS / Linux
+.\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
-copy .env.example .env            # (macOS/Linux: cp .env.example .env)
+copy .env.example .env
 uvicorn app.main:app --reload --port 8000
 ```
 
-API 문서: http://127.0.0.1:8000/docs
+- API: http://127.0.0.1:8000
+- 문서: http://127.0.0.1:8000/docs
+
+Windows에서 `--reload` 포트 오류 시:
+
+```powershell
+.\.venv\Scripts\python.exe -m uvicorn app.main:app --host 127.0.0.1 --port 8000
+```
 
 ### 2. 프론트엔드 (React + Vite)
 
-```bash
+```powershell
 cd frontend
 npm install
 npm run dev
 ```
 
-개발 서버: http://localhost:5173 (`/api` 요청은 자동으로 8000번 백엔드로 프록시됩니다.)
+- 접속: http://localhost:5173
+- `/api` 요청은 Vite 프록시로 8000번 백엔드에 전달
 
-### 3. 같은 Wi‑Fi / LAN에서 다른 기기로 보기
+### 3. LAN에서 다른 기기로 보기
 
-1. **내 PC IP 확인** (PowerShell):
-   ```powershell
-   ipconfig
-   ```
-   `IPv4 주소` 예: `192.168.0.23`
+```powershell
+# 터미널 1 — 백엔드
+uvicorn app.main:app --host 127.0.0.1 --port 8000
 
-2. **백엔드** (이 PC에서 실행, 다른 기기는 직접 접속하지 않음):
-   ```bash
-   uvicorn app.main:app --host 127.0.0.1 --port 8000
-   ```
-
-3. **프론트엔드** — 포트 **8080**으로 LAN 공개:
-   ```bash
-   cd frontend
-   npm run dev:lan
-   ```
-   터미널에 `Network: http://192.168.x.x:8080/` 가 표시됩니다.
-
-4. **다른 사람 PC/폰** 브라우저에서:
-   ```
-   http://192.168.0.23:8080
-   ```
-   (본인 IP로 바꿔서 접속)
-
-포트를 바꾸려면:
-```bash
-# 예: 3000번 포트
-npx vite --port 3000
+# 터미널 2 — 프론트 (8080)
+cd frontend
+npm run dev:lan
 ```
-또는 `frontend/.env`에 `VITE_DEV_PORT=3000` 설정 후 `npm run dev`.
 
-> Windows 방화벽에서 해당 포트(8080 등) 허용 팝업이 뜨면 **허용**을 눌러야 다른 기기에서 접속됩니다.
+터미널에 표시되는 `Network: http://192.168.x.x:8080/` 주소로 접속합니다.
 
-> 백엔드를 실행하지 않아도 프론트엔드는 뉴스 / 챗봇 응답으로 동작합니다.
+> 백엔드를 실행하지 않으면 뉴스·챗봇 API가 동작하지 않습니다.
 
 ## 환경 변수
 
-### backend/.env
+### Render (백엔드)
 
-| 변수             | 설명                                                   |
-| ---------------- | ------------------------------------------------------ |
-| `OPENAI_API_KEY` | OpenAI API 키 (챗봇 RAG + gpt-5-nano) |
-| `OPENAI_MODEL`   | 사용할 모델 (기본 `gpt-5-nano`)         |
-| `OPENAI_TEMPERATURE` | LLM temperature (기본 `0.1`)        |
-| `NEWS_RSS_FEEDS` | 쉼표로 구분한 RSS 피드 URL. 뉴스 사용.     |
-| `CORS_ORIGINS`   | 허용할 프론트엔드 오리진 목록                          |
+Render 대시보드 → Web Service → **Environment** 에서 설정합니다.
 
-### frontend/.env
+| 변수 | 설명 |
+| ---- | ---- |
+| `OPENAI_API_KEY` | OpenAI API 키 (챗봇 RAG) |
+| `OPENAI_MODEL` | LLM 모델 (기본 `gpt-5-nano`) |
+| `OPENAI_TEMPERATURE` | temperature (기본 `0.1`) |
+| `CORS_ORIGINS` | Vercel 프론트 URL + 로컬 개발 URL (쉼표 구분) |
 
-| 변수                | 설명                                                            |
-| ------------------- | --------------------------------------------------------------- |
-| `VITE_API_BASE_URL` | 배포된 백엔드 주소. 로컬에서는 비워 두면 Vite 프록시를 사용함.   |
+`CORS_ORIGINS` 예시:
 
-## 배포 (Vercel)
+```env
+CORS_ORIGINS=http://localhost:5173,http://127.0.0.1:5173,https://your-app.vercel.app
+```
 
-프론트엔드는 `frontend/` 디렉터리를 루트로 Vercel에 배포합니다.
+### Vercel (프론트엔드)
 
-1. Vercel에서 새 프로젝트 생성 → Root Directory를 `frontend`로 설정
-2. Framework Preset: Vite (자동 감지, `vercel.json` 포함)
-3. 환경 변수 `VITE_API_BASE_URL`에 배포된 FastAPI 백엔드 URL 입력
-4. 백엔드(FastAPI)는 Railway/Render/Fly.io 등에 별도 배포
+Vercel → Project → **Settings → Environment Variables**
 
-## 커스터마이징 포인트
+| 변수 | 설명 |
+| ---- | ---- |
+| `VITE_API_BASE_URL` | Render 백엔드 URL (예: `https://your-service.onrender.com`, **끝에 `/` 없이**) |
 
-- 프로젝트 카드: `frontend/src/data/projects.js`
-- 네비/푸터/SMK Agent 링크: `frontend/src/data/siteConfig.js`
-- 디자인 색상/토큰: `frontend/src/styles/tokens.css`
-- 챗봇 지식 베이스: `backend/app/services/rag_service.py`의 `KNOWLEDGE_BASE`
-- 실제 뉴스 소스: `backend/.env`의 `NEWS_RSS_FEEDS` 또는 `news_service.py`
+변경 후 **Redeploy**해야 빌드에 반영됩니다.
+
+### 로컬 (`backend/.env`, `frontend/.env`)
+
+| 파일 | 변수 | 설명 |
+| ---- | ---- | ---- |
+| `backend/.env` | 위 Render 변수와 동일 | `.env.example` 참고 |
+| `frontend/.env` | `VITE_API_BASE_URL` | 로컬에서는 비워 두면 Vite 프록시 사용 |
+
+## 배포
+
+### 백엔드 — Render
+
+1. [Render](https://render.com) → **New → Web Service**
+2. GitHub 저장소 `woodyjeon/dashboard-react-fastapi` 연결
+3. **Root Directory**: `backend`
+4. **Runtime**: Python 3
+5. **Build Command**: `pip install -r requirements.txt`
+6. **Start Command**: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
+7. 환경 변수 설정 (`OPENAI_API_KEY`, `CORS_ORIGINS` 등)
+8. 배포 후 URL 확인 (예: `https://woody-dashboard-api.onrender.com`)
+
+저장소 루트의 `render.yaml`을 사용하면 위 설정을 자동으로 적용할 수 있습니다.
+
+**헬스 체크**: `GET /api/health` → `{"status":"ok"}`
+
+> Render 무료 플랜은 유휴 후 cold start로 첫 요청이 느릴 수 있습니다.
+
+### 프론트엔드 — Vercel
+
+1. [Vercel](https://vercel.com) → **Add New Project**
+2. 같은 GitHub 저장소 연결
+3. **Root Directory**: `frontend` (또는 루트 + 루트 `vercel.json`)
+4. **Framework**: Vite
+5. 환경 변수 `VITE_API_BASE_URL` = Render 백엔드 URL
+6. **Deploy**
+
+CLI 배포 (선택):
+
+```bash
+cd frontend
+npx vercel --prod
+```
+
+### 배포 후 연결 확인
+
+배포 직후 아래 순서로 확인하세요.
+
+### 1. 환경 변수 (필수)
+
+| 위치 | 변수 | 확인 |
+| ---- | ---- | ---- |
+| **Vercel** | `VITE_API_BASE_URL` | Render URL (예: `https://xxx.onrender.com`, **끝 `/` 없음**) |
+| **Render** | `OPENAI_API_KEY` | 챗봇·SMK AI 기능 |
+| **Render** | `CORS_ORIGINS` | Vercel 도메인 + `http://localhost:5173` |
+
+> `VITE_API_BASE_URL`이 비어 있으면 프로덕션에서 `/api` 요청이 Vercel SPA로 가서 **뉴스·챗봇·SMK가 전부 실패**합니다. Vercel **Redeploy** 필수.
+
+### 2. API 스모크 테스트 (로컬 또는 Render)
+
+```powershell
+cd backend
+.\.venv\Scripts\Activate.ps1
+python scripts/verify_api.py
+python scripts/verify_api.py --base-url https://your-service.onrender.com
+```
+
+확인 항목: `/api/health`, 뉴스 3소스, `/api/smk/results`, `/api/chat`
+
+### 3. 브라우저 기능 체크
+
+| 페이지 | 데이터 소스 | 배포 시 주의 |
+| ------ | ----------- | ------------ |
+| `/` 뉴스 캐러셀 | Render `/api/news` | CORS + `VITE_API_BASE_URL` |
+| `/news` | 동일 + 페이지네이션 | 새로고침 시 재크롤링 |
+| `/portfolio` | `projects.js` (정적) | 백엔드 불필요 |
+| 챗봇 FAB | `/api/chat` + `knowledge/*.md` | `OPENAI_API_KEY` |
+| `/smk` | Render SMK API | PDF·결과는 **Render 디스크** (재배포 시 초기화 가능) |
+
+### 4. SMK·PDF 배포 주의
+
+- `backend/app/assets/fonts/malgun.ttf` — **Git에 포함**해야 Render에서 PDF 한글 출력 가능
+- `uploads/`, `outputs/` — `.gitignore` 처리 (서버 로컬 저장). Render 무료 플랜은 **재시작·재배포 시 SMK 업로드·작성 이력이 사라질 수 있음** (로컬과 동일 UX, 영구 저장은 아님)
+
+### 5. 수동 URL 확인
+
+1. Render: `https://your-service.onrender.com/api/health` → `{"status":"ok"}`
+2. Render: `https://your-service.onrender.com/api/news?source=naver_it&page=1&page_size=3`
+3. Vercel 사이트에서 뉴스·챗봇·SMK 업로드 테스트
+4. CORS 오류 시 Render `CORS_ORIGINS`에 Vercel 도메인 추가 후 재배포
+
+## 커스터마이징
+
+| 항목 | 파일 |
+| ---- | ---- |
+| 프로젝트 카드 | `frontend/src/data/projects.js` |
+| 네비/푸터/SMK Agent | `frontend/src/data/siteConfig.js` |
+| 디자인 토큰 | `frontend/src/styles/tokens.css` |
+| 챗봇 지식 베이스 | `backend/app/knowledge/*.md` |
+| 뉴스 크롤러 | `backend/app/services/naver_news_service.py` |

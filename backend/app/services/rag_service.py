@@ -63,16 +63,20 @@ def _get_vectorstore() -> FAISS:
     return FAISS.from_documents(chunks, embeddings)
 
 
-def retrieve(query: str, top_k: int = 4) -> tuple[list[ChatSource], str]:
-    """Semantic search; returns display sources and full context for the LLM."""
+def retrieve(query: str, top_k: int = 4, min_relevance: float = 0.72) -> tuple[list[ChatSource], str]:
+    """Semantic search; returns display sources and context when relevant."""
     store = _get_vectorstore()
-    docs = store.similarity_search(query, k=top_k)
+    scored_docs = store.similarity_search_with_relevance_scores(query, k=top_k)
+    relevant = [(doc, score) for doc, score in scored_docs if score >= min_relevance]
+
+    if not relevant:
+        return [], ""
 
     sources: list[ChatSource] = []
     context_parts: list[str] = []
     seen_titles: set[str] = set()
 
-    for doc in docs:
+    for doc, _score in relevant:
         title = str(doc.metadata.get("title", "문서"))
         if title not in seen_titles:
             seen_titles.add(title)

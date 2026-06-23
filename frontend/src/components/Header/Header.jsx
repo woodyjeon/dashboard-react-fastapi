@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link, NavLink } from 'react-router-dom'
 import { Menu, X, Github } from 'lucide-react'
 import { siteConfig } from '../../data/siteConfig'
 import './Header.css'
@@ -10,13 +11,13 @@ export default function Header() {
     <header className="header">
       <div className="header__main">
         <div className="container header__main-inner">
-          <a href="#top" className="header__logo" aria-label={siteConfig.brand}>
+          <Link to="/" className="header__logo" aria-label={siteConfig.brand}>
             <img
               src="/wj_logo.svg"
               alt={siteConfig.brand}
               className="header__logo-img"
             />
-          </a>
+          </Link>
 
           <nav
             className={`header__nav ${open ? 'is-open' : ''}`}
@@ -25,13 +26,16 @@ export default function Header() {
             <ul className="header__nav-list">
               {siteConfig.nav.map((item) => (
                 <li key={item.label}>
-                  <a
-                    href={item.href}
-                    className="header__nav-link"
+                  <NavLink
+                    to={item.href}
+                    end={item.href === '/'}
+                    className={({ isActive }) =>
+                      `header__nav-link ${isActive ? 'is-active' : ''}`
+                    }
                     onClick={() => setOpen(false)}
                   >
                     {item.label}
-                  </a>
+                  </NavLink>
                 </li>
               ))}
             </ul>

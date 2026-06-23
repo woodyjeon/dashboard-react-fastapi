@@ -12,7 +12,7 @@
 
 ## 등록된 프로젝트
 
-### Woody Dashboard
+### wjeon Dashboard
 - 분야: 자동차
 - 설명: 뉴스, 포트폴리오, RAG 챗봇을 한 곳에 모은 개인용 대시보드
 - 기술: React, Vite, FastAPI

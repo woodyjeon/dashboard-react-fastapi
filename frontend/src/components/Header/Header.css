@@ -54,7 +54,8 @@
   border-bottom: 2px solid transparent;
 }
 
-.header__nav-link:hover {
+.header__nav-link:hover,
+.header__nav-link.is-active {
   color: #fff;
   border-bottom-color: var(--color-accent);
 }

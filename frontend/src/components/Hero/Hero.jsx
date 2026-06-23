@@ -7,15 +7,15 @@ export default function Hero() {
       <div className="container hero__inner">
         <div className="hero__content">
           <span className="hero__badge">
-            <Sparkles size={15} /> Woody 대시보드
+            <Sparkles size={15} /> wjeon 대시보드
           </span>
           <h1 className="hero__title">
             한곳에서 보는
             <br />
-            나의 뉴스, 프로젝트, 그리고 에이전트
+            뉴스, 프로젝트, 그리고 SMK 에이전트
           </h1>
           <p className="hero__subtitle">
-            최신 뉴스 스크롤링, 포트폴리오 캐러셀, RAG 기반 챗봇과 SMK Agent까지.
+            최신 뉴스, 포트폴리오, RAG 기반 챗봇과 SMK Agent까지.
             필요한 모든 것을 하나의 화면에서 빠르게 확인하세요.
           </p>
           <div className="hero__actions">
