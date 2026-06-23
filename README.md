@@ -2,6 +2,8 @@
 
 모던 스타일의 개인용 대시보드입니다. 네이버 IT 뉴스 크롤링, 포트폴리오 캐러셀, RAG 기반 챗봇, SMK Agent 연동을 한 화면에서 제공합니다.
 
+**Live Demo:** https://dashboard-react-fastapi.vercel.app/
+
 ## 배포 구조
 
 | 영역 | 호스팅 | 저장소 경로 |
@@ -11,13 +13,14 @@
 
 ```
 브라우저 → Vercel (React SPA)
-              ↓ VITE_API_BASE_URL
+              ↓ /api/* 프록시 (vercel.json) 또는 VITE_API_BASE_URL
            Render (FastAPI) → OpenAI / 네이버 뉴스 크롤링
 ```
 
 - **GitHub**: https://github.com/woodyjeon/dashboard-react-fastapi
 - 로컬 개발: Vite가 `/api`를 `http://127.0.0.1:8000`으로 프록시
-- 프로덕션: Vercel 환경 변수 `VITE_API_BASE_URL` → Render 백엔드 URL
+- 프로덕션(기본): `vercel.json`이 `/api/*`를 Render로 프록시 (`VITE_API_BASE_URL` 없어도 동작)
+- 프로덕션(선택): `VITE_API_BASE_URL`을 Render URL로 직접 지정 (대용량 SMK PDF 업로드 시 권장)
 
 ## 기술 스택
 
@@ -127,7 +130,9 @@ Vercel → Project → **Settings → Environment Variables**
 
 | 변수 | 설명 |
 | ---- | ---- |
-| `VITE_API_BASE_URL` | Render 백엔드 URL (예: `https://your-service.onrender.com`, **끝에 `/` 없이**) |
+| `VITE_API_BASE_URL` | (선택) Render URL 직접 연결. 비워 두면 `vercel.json` `/api` 프록시 사용 |
+
+`vercel.json`에 `/api` → Render 프록시가 있으면 **환경 변수 없이도** 뉴스·챗봇이 동작합니다. SMK 대용량 PDF(4.5MB+)는 `VITE_API_BASE_URL` 직접 설정을 권장합니다.
 
 변경 후 **Redeploy**해야 빌드에 반영됩니다.
 
@@ -181,11 +186,12 @@ npx vercel --prod
 
 | 위치 | 변수 | 확인 |
 | ---- | ---- | ---- |
-| **Vercel** | `VITE_API_BASE_URL` | Render URL (예: `https://xxx.onrender.com`, **끝 `/` 없음**) |
+| **Vercel** | `vercel.json` `/api` 프록시 | `https://dashboard-react-fastapi.onrender.com` 로 연결 |
+| **Vercel** | `VITE_API_BASE_URL` | (선택) Render URL 직접 연결 |
 | **Render** | `OPENAI_API_KEY` | 챗봇·SMK AI 기능 |
-| **Render** | `CORS_ORIGINS` | Vercel 도메인 + `http://localhost:5173` |
+| **Render** | `CORS_ORIGINS` | `https://dashboard-react-fastapi.vercel.app` + 로컬 URL |
 
-> `VITE_API_BASE_URL`이 비어 있으면 프로덕션에서 `/api` 요청이 Vercel SPA로 가서 **뉴스·챗봇·SMK가 전부 실패**합니다. Vercel **Redeploy** 필수.
+> `VITE_API_BASE_URL`을 Render로 직접 설정할 때만 Render `CORS_ORIGINS`에 Vercel 도메인이 필요합니다. 프록시만 쓰면 CORS는 동일 출처라 불필요합니다.
 
 ### 2. API 스모크 테스트 (로컬 또는 Render)
 

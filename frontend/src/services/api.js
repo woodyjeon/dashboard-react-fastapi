@@ -32,7 +32,13 @@ export async function fetchNews(source = 'naver_it', options = {}) {
   try {
     return await request(`/api/news?${params}`)
   } catch (err) {
-    throw new Error(err.message || '뉴스를 불러오지 못했습니다.')
+    const msg = err.message || ''
+    if (msg.includes('Unexpected token') || msg.includes('is not valid JSON')) {
+      throw new Error(
+        '뉴스 API에 연결하지 못했습니다. Vercel /api 프록시 또는 VITE_API_BASE_URL 설정을 확인해주세요.',
+      )
+    }
+    throw new Error(msg || '뉴스를 불러오지 못했습니다.')
   }
 }
 
