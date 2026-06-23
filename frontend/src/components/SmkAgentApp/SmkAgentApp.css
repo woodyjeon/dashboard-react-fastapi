@@ -358,6 +358,7 @@
   margin-top: 0;
 }
 
+.smkapp__summary {
   display: flex;
   flex-direction: column;
   gap: 6px;
